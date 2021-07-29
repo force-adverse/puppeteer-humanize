@@ -1,5 +1,8 @@
 # Puppeteer-Humanize
 
+![puppeteer-humanize](https://user-images.githubusercontent.com/65471523/127490800-15cba5e4-f94e-4d19-9960-e02c847b9361.jpg)
+
+
 Humanizer functions for Puppeteer
 
 ## Install
