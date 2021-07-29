@@ -2,6 +2,7 @@
   "name": "@forad/puppeteer-humanize",
   "version": "1.0.0",
   "description": "Humanization functions for Puppeteer.",
+  "private": false,
   "keywords": [
     "puppeteer",
     "puppeteer-extra",
