@@ -65,4 +65,4 @@ import { launch, Browser, Page, ElementHandle } from "puppeteer-extra"
 
 - [ ] GAN Mouse movement actions
 - [ ] Improve typing actions
-- [ ] Suggest stuff in [Discord](https://extra.community/) or Discussions (Not Issue Tracker)
+- [ ] Suggest stuff in [Discord](https://extra.community/) or [Discussions](https://github.com/force-adverse/puppeteer-humanize/discussions) (Not Issue Tracker)
