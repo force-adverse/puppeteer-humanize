@@ -1,0 +1,76 @@
+{
+  "name": "@forad/puppeteer-humanize",
+  "version": "1.0.0",
+  "description": "Humanization functions for Puppeteer.",
+  "keywords": [
+    "puppeteer",
+    "puppeteer-extra",
+    "humanize",
+    "antidetect",
+    "scraping",
+    "bots"
+  ],
+  "homepage": "https://github.com/force-adverse/puppeteer-humanize",
+  "bugs": "https://github.com/force-adverse/puppeteer-humanize/issues",
+  "repository": "https://github.com/force-adverse/puppeteer-humanize",
+  "license": "MIT",
+  "author": "force-adverse",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "lib/index.js",
+    "lib/start.js"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "run-s clean && run-s lint && tsc",
+    "depcheck": "dependency-check ./package.json --verbose --ignore-module \"@types/*\" --nodev",
+    "lint": "eslint src --ext .ts --fix && prettier --write src",
+    "sort": "sort-package-json",
+    "test": "mocha \"test/**/*.test.ts\" --exit",
+    "upgrade": "ncu -u --packageFile package.json && run-s sort",
+    "preinstall": "npx only-allow pnpm",
+    "prepublish": "run-s build"
+  },
+  "dependencies": {
+    "mersenne-twister": "^1.1.0",
+    "debug": "^4.3.2",
+    "tslib": "^2.3.0",
+    "zod": "^3.5.1"
+  },
+  "devDependencies": {
+    "@types/mersenne-twister": "^1.1.2",
+    "@rushstack/eslint-config": "^2.4.0",
+    "ts-node": "^10.1.0",
+    "@types/app-root-path": "^1.2.4",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.4.6",
+    "@types/debug": "^4.1.7",
+    "@types/sinon": "^10.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "@types/puppeteer": "^5.4.4",
+    "app-root-path": "^3.0.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.31.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "mocha": "^9.0.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "sinon": "^11.1.2",
+    "sort-package-json": "^1.50.0",
+    "typescript": "4.3.5"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "volta": {
+    "node": "16.5.0"
+  }
+}
