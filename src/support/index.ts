@@ -1,3 +1,4 @@
+export * from "./characters"
 export * from "./debug"
 export * from "./exceptions"
 export * from "./input"
