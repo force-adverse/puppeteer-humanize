@@ -4,27 +4,28 @@ import { TypeIntoSchema } from "../schemas"
 import {
   chance,
   debug,
-  getRandomChar,
+  detectCharType,
   isCadence,
+  keypressDelay,
   rand,
-  resolveDelay,
   Timer,
   waitForTimeout
 } from "../support"
-import { PartialTypeIntoConfig, PerformanceTimer } from "../types"
+import { CharacterType, PerformanceTimer, TypeIntoOptions } from "../types"
+import { typeMistake } from "./type-mistake"
 
 /**
  * Humanizes text input into a specified element.
  *
  * @param {ElementHandle} element
  * @param {string} text
- * @param {PartialTypeIntoConfig} config
+ * @param {TypeIntoOptions} config
  * @return {Promise<PerformanceTimer>}
  */
 export const typeInto = async (
   element: ElementHandle,
   text: string,
-  config: PartialTypeIntoConfig = {}
+  config: TypeIntoOptions = {}
 ): Promise<PerformanceTimer> => {
   // Validate config and inject defaults.
   const { delays, mistakes } = TypeIntoSchema.parse(config)
@@ -45,40 +46,35 @@ export const typeInto = async (
   // Type each character in sequence.
   let position: number = 0
   for (const char of chars) {
-    // Parse character type.
-    const isSpace: boolean = [..." "].includes(char)
-    const isTermination: boolean = [...".,?!"].includes(char)
-    const isPunctuation: boolean = [..."@#$%^&*()-+_=/[]{}:;|~<>\"'"].includes(
-      char
-    )
+    const charType: CharacterType | undefined = detectCharType(char)
     // Add potential for mistakes while typing.
-    if (!isTermination && chance(mistakes.chance)) {
-      const mistake: string = getRandomChar(char)
-      await element.type(mistake, { delay: rand({ min: 5, max: 15 }) })
-      await waitForTimeout(mistakes.delay)
-      await element.press("Backspace")
-      await waitForTimeout({
-        min: mistakes.delay.min * 2,
-        max: mistakes.delay.max * 2
-      })
+    if (charType !== "termination") {
+      await typeMistake(element, char, mistakes)
     }
 
     // Delay slightly before punctuation.
-    if (isPunctuation) {
+    if (charType === "punctuation") {
       await waitForTimeout({ min: 50, max: 100 })
     }
 
-    // Type the correct character.
+    // Type the correct character and add post type delay.
     // TODO: Make capital letters use shift key.
-    await element.type(char)
+    await element.type(char, keypressDelay())
     await waitForTimeout(delays.all)
 
-    // Add various delays after sentence termination or punctuation.
-    await resolveDelay(isSpace, delays.space)
-    await resolveDelay(isTermination, delays.termination)
-    await resolveDelay(isPunctuation, delays.punctuation)
+    // Add longer delay after sentence termination or punctuation.
+    if (
+      charType &&
+      (charType === "punctuation" || charType === "termination") &&
+      Object.keys(delays).includes(charType)
+    ) {
+      await waitForTimeout(delays[charType])
+    }
+
     // Vary longer delays on natural typing cadences.
-    await resolveDelay(isCadence(position), delays.cadence)
+    if (isCadence(position) && chance(delays.cadence.chance)) {
+      await waitForTimeout(delays.cadence)
+    }
 
     // Increment counter for cadence tracking.
     position++

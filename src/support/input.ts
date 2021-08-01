@@ -1,22 +1,39 @@
-import { DelayConfig } from "../types"
-import { chance, rand, waitForTimeout } from "./utils"
+import {
+  KEY_PRESS_MAX_DELAY,
+  KEY_PRESS_MIN_DELAY,
+  PROXIMATE_CHARS
+} from "../constants"
+import { KeypressDelay } from "../types/input"
+import { charTypes, isAlpha, isNumeric } from "./characters"
+import { rand } from "./utils"
 
 /**
- * Selects a random character for spelling mistakes based on the true character.
+ * Selects a random alphanumeric character based on the source character type.
  *
  * @param {string} char
  * @return {string}
  */
-
 export const getRandomChar = (char: string): string => {
-  const numeric: string[] = [..."0123456789"]
-  const alpha: string[] = [
-    ..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-  ]
-
+  const { alpha, numeric } = charTypes
   return alpha.includes(char)
     ? alpha[rand({ min: 0, max: alpha.length })]
     : numeric[rand({ min: 0, max: numeric.length })]
+}
+
+/**
+ * Selects a random character proximate to the source character.
+ *
+ * @param {string} char
+ * @return {string | undefined}
+ */
+export const getProximateChar = (char: string): string | undefined => {
+  if (isAlpha(char) || isNumeric(char)) {
+    const chars: string[] | undefined = PROXIMATE_CHARS[char.toUpperCase()]
+    if (chars?.length) {
+      return chars[rand({ min: 0, max: chars.length })]
+    }
+  }
+  return undefined
 }
 
 /**
@@ -35,18 +52,6 @@ export const isCadence = (position: number): boolean => {
   return false
 }
 
-/**
- * Resolves a common delay pattern used by input functions based on user config.
- *
- * @param {boolean} isValid
- * @param {DelayConfig} delay
- * @return {Promise<void>}
- */
-export const resolveDelay = async (
-  isValid: boolean,
-  delay: DelayConfig
-): Promise<void> => {
-  if (isValid && chance(delay.chance)) {
-    await waitForTimeout(delay)
-  }
+export const keypressDelay = (): KeypressDelay => {
+  return { delay: rand({ min: KEY_PRESS_MIN_DELAY, max: KEY_PRESS_MAX_DELAY }) }
 }

@@ -1,12 +1,17 @@
 import { z } from "zod"
 
-import { DelaySchema, TypeIntoSchema } from "../schemas"
+import * as Schemas from "../schemas"
 
-// Full Schemas
+// Text Schemas
+export type CharacterType = z.infer<typeof Schemas.CharacterTypeSchema>
 
-export type DelayConfig = z.infer<typeof DelaySchema>
-export type TypeIntoConfig = z.infer<typeof TypeIntoSchema>
+// Config Schemas
+export type Delay = z.infer<typeof Schemas.DelaySchema>
+export type TypeMistake = z.infer<typeof Schemas.TypeMistakeSchema>
+export type TypeInto = z.infer<typeof Schemas.TypeIntoSchema>
 
 // Partials
-const PartialTypeIntoSchema = TypeIntoSchema.deepPartial()
-export type PartialTypeIntoConfig = z.input<typeof PartialTypeIntoSchema>
+const TypeMistakeOptionsSchema = Schemas.TypeMistakeSchema.deepPartial()
+const TypeIntoOptionsSchema = Schemas.TypeIntoSchema.deepPartial()
+export type TypeMistakeOptions = z.input<typeof TypeMistakeOptionsSchema>
+export type TypeIntoOptions = z.input<typeof TypeIntoOptionsSchema>

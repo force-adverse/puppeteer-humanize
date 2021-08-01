@@ -6,16 +6,17 @@ export const DelaySchema = z.object({
   max: z.number()
 })
 
+export const TypeMistakeSchema = z.object({
+  chance: z.number().default(5),
+  delay: DelaySchema.default({
+    chance: 100,
+    min: 100,
+    max: 200
+  })
+})
+
 export const TypeIntoSchema = z.object({
-  mistakes: z
-    .object({
-      chance: z.number().default(5),
-      delay: DelaySchema.default({
-        min: 100,
-        max: 200
-      })
-    })
-    .default({}),
+  mistakes: TypeMistakeSchema.default({}),
   delays: z
     .object({
       all: DelaySchema.default({ chance: 100, min: 50, max: 150 }),

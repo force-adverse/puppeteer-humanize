@@ -1,1 +1,2 @@
-export * from "./configs"
+export * from "./options"
+export * from "./text"
