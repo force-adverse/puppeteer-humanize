@@ -1,8 +1,9 @@
 import factory from "debug"
-import { DebugLogger } from "util"
+
+import { Debugger } from "../types"
 
 /**
  * Provide a namespaced debug instance for package.
- * @type {debug.Debugger}
+ * @type {Debugger}
  */
-export const debug: DebugLogger = factory("puppeteer-humanize")
+export const debug: Debugger = factory("puppeteer-humanize")
