@@ -1,7 +1,4 @@
-import type * as Puppeteer from "puppeteer"
-import type * as Extra from "puppeteer-extra-plugin"
+import type * as Puppeteer from "puppeteer-core"
 
 export type Page = Puppeteer.Page
 export type ElementHandle = Puppeteer.ElementHandle
-export type PluginOptions = Extra.PluginOptions
-export type PuppeteerExtraPlugin = Extra.PuppeteerExtraPlugin

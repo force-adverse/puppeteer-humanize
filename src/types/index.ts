@@ -1,4 +1,3 @@
-export * from "./debug"
 export * from "./input"
 export * from "./puppeteer"
 export * from "./schemas"
