@@ -1,5 +1,3 @@
-import { ElementHandle } from "puppeteer"
-
 import { TypeIntoSchema } from "../schemas"
 import {
   chance,
@@ -11,7 +9,12 @@ import {
   Timer,
   waitForTimeout
 } from "../support"
-import { CharacterType, PerformanceTimer, TypeIntoOptions } from "../types"
+import {
+  CharacterType,
+  ElementHandle,
+  PerformanceTimer,
+  TypeIntoOptions
+} from "../types"
 import { typeMistake } from "./type-mistake"
 
 /**

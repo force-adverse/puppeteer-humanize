@@ -1,5 +1,3 @@
-import { ElementHandle } from "puppeteer"
-
 import { TypeMistakeSchema } from "../schemas"
 import {
   chance,
@@ -7,7 +5,7 @@ import {
   keypressDelay,
   waitForTimeout
 } from "../support"
-import { TypeMistake, TypeMistakeOptions } from "../types"
+import { ElementHandle, TypeMistake, TypeMistakeOptions } from "../types"
 
 /**
  * Types and deletes a mistake based on a source character.
