@@ -30,7 +30,10 @@ export const getProximateChar = (char: string): string | undefined => {
   if (isAlpha(char) || isNumeric(char)) {
     const chars: string[] | undefined = PROXIMATE_CHARS[char.toUpperCase()]
     if (chars?.length) {
-      return chars[rand({ min: 0, max: chars.length })].toLowerCase()
+      const charRandom = chars[rand({ min: 0, max: chars.length })]
+      return "string" === typeof charRandom
+        ? charRandom.toLowerCase()
+        : charRandom
     }
   }
   return undefined
